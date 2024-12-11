@@ -4,7 +4,7 @@ from shapely.geometry import mapping, Polygon
 from shapely.ops import unary_union
 import fiona
 import geopandas as gpd
-path_to_main_folder = input('path to the main folder where a folder images and a folder labels are stored: ')
+path_to_main_folder = input('path to the main folder where both images and labels are stored: ')
 path_to_store_geodata = input('path to store georeference data: ')
 input('name the folder for labels "labels" and the folder for images "images", Let"s continue:  CLICK ENTER')
 
@@ -33,7 +33,7 @@ def xyxy2pixel_(coords):
 TEST_ANNO = path_to_main_folder
 for i in os.listdir(TEST_ANNO):
     file_name, file_extension = os.path.splitext(i)
-    with open((rf"{TEST_ANNO}//labels//"+file_name+".txt"), "r") as test_txt:
+    with open((rf"{TEST_ANNO}//"+file_name+".txt"), "r") as test_txt:
         for line in test_txt:
             test_txt = line.split(" ")
             
@@ -55,7 +55,7 @@ for i in os.listdir(TEST_ANNO):
                 
 
 
-                ds = gdal.Open(rf"{TEST_ANNO}//images//" + file_name + ".tif")
+                ds = gdal.Open(rf"{TEST_ANNO}//" + file_name + ".tif")
 
                 world_Xmin, world_Ymin = pixel_to_world(ds.GetGeoTransform(), xyxy[0], xyxy[1])
                 world_Xmax, world_Ymax = pixel_to_world(ds.GetGeoTransform(), xyxy[2], xyxy[3])
@@ -81,7 +81,7 @@ for i in os.listdir(TEST_ANNO):
 
     # Write a new Shapefile
     
-    with fiona.open(f'{path_to_store_geodata}//square_bbxs_turb2_conf.shp', 'w', 'ESRI Shapefile', schema) as c:
+    with fiona.open(f'{path_to_store_geodata}//square_bbxs_poly.shp', 'w', 'ESRI Shapefile', schema) as c:
         ## If there are multiple geometries, put the "for" loop here
         for i, cnf in zip(polylist, confv):
             cnt+=1
