@@ -28,10 +28,10 @@ for i in os.listdir(IMAGESF):
     # Output text file path
     output_txt_file = rf"{LABELSF}\{file_name}.txt"
 
-# Write the results to the text file in YOLO format
-with open(output_txt_file, 'w') as f:
-    for i, box in enumerate(boxes):
-        f.write(f"{classes[i]} {box[0]} {box[1]} {box[2]} {box[3]} {confidences[i]}\n")
+    # Write the results to the text file in YOLO format
+    with open(output_txt_file, 'w') as f:
+        for i, box in enumerate(boxes):
+            f.write(f"{classes[i]} {box[0]} {box[1]} {box[2]} {box[3]} {confidences[i]}\n")
 
 # Optionally, show the image with detections
 result.show()
